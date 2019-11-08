@@ -12,19 +12,27 @@ module.exports = {
         use: 'raw-loader',
       },
       {
-        test: /\.(png|jpg)$/,
+        test: /\.(eot|woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/,
         use: ['file-loader']
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env'],
+            presets: ['@babel/env', '@babel/preset-react'],
             plugins: ['transform-class-properties']
           }
         }
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader"
+          }
+        ]
       },
       {
         test: /\.(scss|css)$/,
@@ -48,7 +56,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Hello'
+      template: "./src/index.html",
+      filename: "./index.html"
     }),
     new MiniCssExtractPlugin({
       filename: '[name]-styles.[contenthash].css',
